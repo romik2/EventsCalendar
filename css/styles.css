@@ -101,6 +101,10 @@ header a, a:visited {
     text-align: right;
     text-decoration: none;
 }
+.mer
+{
+    background-color: #008000;
+}
 #calendar table td a:hover {
     background-color: #F6F6F6;
     border: 1px solid #CDD5DA;

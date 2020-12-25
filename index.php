@@ -1,23 +1,6 @@
-<?php if (!isset($_COOKIE['session'])):?>
 
-
-<div class="navbars">
-<a href="/index.php">Главная</a>
-<a class="a-header" href="/templates/login.php">Авторизация</a>
-</div>
-
-
-<?php endif; if(isset($_COOKIE['session'])):?>
-
-
-<div class="navbars">
-<a href="/index.php">Главная</a>
-<a class="a-header" href="/templates/logout.php">Выйти</a>
-</div>
-
-
-<?php endif;?>
 <?php
+
 // Get current year, month and day
 list($iNowYear, $iNowMonth, $iNowDay) = explode('-', date('Y-m-d'));
 
@@ -68,6 +51,61 @@ $iCurrentDay = ($bPreviousMonth) ? $iPrevShowFrom : 1;
 $bNextMonth = false;
 $sCalTblRows = '';
 
+
+switch ($sMonthName) {
+    case "December":
+        $month = 12;
+        break;
+    case "January":
+        $month = 1;
+        break;
+        case "February":
+            $month = 2;
+            break;
+            case "March":
+                $month = 3;
+                break;
+                case "April":
+                    $month = 4;
+                    break;
+                    case "May":
+                        $month = 5;
+                        break;
+                        case "June":
+                            $month = 6;
+                            break;
+                            case "July":
+                                $month = 7;
+                                break;
+                                case "August":
+                                    $month = 8;
+                                    break;
+                                    case "September":
+                                        $month = 9;
+                                        break;
+                                        case "October":
+                                            $month = 10;
+                                            break;
+                                            case "November":
+                                                $month = 11;
+                                                break;
+                                            }
+
+$host = 'localhost'; //в кавчках введите адрес сервера 
+$database = 'EventsCalendar'; //в кавчках введите имя базы данных
+$user = 'root'; //в кавчках введите имя пользователя
+$password = 'admins1N'; //в кавчках введите пароль
+
+$link = mysqli_connect($host, $user, $password, $database) //Подключение к БД
+    or die("Ошибка " . mysqli_error($link));//Проверям были ли ошибки
+
+$link->set_charset('utf8');//Ставим кадировки UTF-8
+
+
+$res = $link->query("SELECT count(date) From events WHERE MONTH(date) = '".$month."' and YEAR(date) = '".$iYear."' group by date");
+        $row = $res->fetch_row();
+        $col_z = $row[0];
+
 // Generate rows for the calendar
 for ($i = 0; $i < 6; $i++) { // 6-weeks range
     $sCalTblRows .= '<tr>';
@@ -79,8 +117,26 @@ for ($i = 0; $i < 6; $i++) { // 6-weeks range
         } elseif (!$bPreviousMonth && !$bNextMonth) {
             $sClass = 'current';
         }
-        $sCalTblRows .= '<td class="'.$sClass.'"><a href="templates/event.php?date='.$iCurrentDay.'&month='.$sMonthName.'&year='.$iYear.'">'.$iCurrentDay.'</a></td>';
-
+        
+        if ($col_z > 1)
+        {
+            $res = $link->query("SELECT DAY(date) From events WHERE MONTH(date) = '".$month."' and YEAR(date) = '".$iYear."' group by date");
+            while($row = $res->fetch_assoc())
+            {
+                if ($iCurrentDay == $row['DAY(date)'])
+                {
+                    $sCalTblRows .= '<td class="mer"><a href="templates/event.php?date='.$iCurrentDay.'&month='.$sMonthName.'&year='.$iYear.'">'.$iCurrentDay.'</a></td>';
+                }
+                else 
+                {
+                    $sCalTblRows .= '<td class="'.$sClass.' "><a href="templates/event.php?date='.$iCurrentDay.'&month='.$sMonthName.'&year='.$iYear.'">'.$iCurrentDay.'</a></td>';
+                }
+            }
+        }
+        else
+        {
+            $sCalTblRows .= '<td class="'.$sClass.' "><a href="templates/event.php?date='.$iCurrentDay.'&month='.$sMonthName.'&year='.$iYear.'">'.$iCurrentDay.'</a></td>';
+        }
         // Next day
         $iCurrentDay++;
         if ($bPreviousMonth && $iCurrentDay > $iPrevDaysInMonth) {
@@ -110,7 +166,20 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'
     echo $sCalendarItself;
     exit;
 }
-
+if (!isset($_COOKIE['session']))
+    {
+        echo '<div class="navbars">
+        <a href="/index.php">Главная</a>
+        <a class="a-header" href="/templates/login.php">Авторизация</a>
+        </div>';
+    }
+else if (isset($_COOKIE['session']))
+{
+    echo '<div class="navbars">
+    <a href="/index.php">Главная</a>
+    <a class="a-header" href="/templates/logout.php">Выйти</a>
+    </div>';
+}
 $aVariables = array(
     '__calendar__' => $sCalendarItself,
 );
