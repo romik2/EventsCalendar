@@ -47,37 +47,73 @@
 <thead>
 <tr>
     <th>Номер</th>
+    <th>Направление</th>
 	<th>Название конкурса</th>
 	<th>Приложение</th>
-	<th>Подать заявку</th>
+    <th>Отправить участников</th>
+    <th>Подтверждение участия</th>
 </tr>
 </thead>
 <tbody>
+    <?php
+    
+    include 'api/config.php';
+
+    switch ($_GET[month]) {
+        case "December":
+            $month = 12;
+            break;
+        case "January":
+            $month = 1;
+            break;
+            case "February":
+                $month = 2;
+                break;
+                case "March":
+                    $month = 3;
+                    break;
+                    case "April":
+                        $month = 4;
+                        break;
+                        case "May":
+                            $month = 5;
+                            break;
+                            case "June":
+                                $month = 6;
+                                break;
+                                case "July":
+                                    $month = 7;
+                                    break;
+                                    case "August":
+                                        $month = 8;
+                                        break;
+                                        case "September":
+                                            $month = 9;
+                                            break;
+                                            case "October":
+                                                $month = 10;
+                                                break;
+                                                case "November":
+                                                    $month = 11;
+                                                    break;
+                                                }
+                                                
+    $date = $_GET[year].'-'.$month.'-'.$_GET[date];
+
+    $res = $link->query("SELECT name, provisions, direction From events WHERE date='".$date."'");
+
+    $i = 1;
+    while($row = $res->fetch_assoc()):
+    ?>
 <tr>
-    <td>1</td>
-	<td>Ячейка</td>
-	<td>Ячейка</td>
-	<td>Ячейка</td>
-</tr>
-<tr>
-    <td>2</td>
-	<td>Ячейка</td>
-	<td>Ячейка</td>
-	<td>Ячейка</td>
-</tr>
-<tr>
-    <td>3</td>
-	<td>Ячейка</td>
+    <td><?php echo $i?></td>
+    <td><?php echo $row['direction']?></td>
+	<td><?php echo $row['name']?></td>
+	<td><?php echo $row['provisions']?></td>
     <td>Ячейка</td>
     <td>Ячейка</td>
-	<!-- <td colspan="2">Ячейка</td> -->
 </tr>
-<tr>
-    <td>4</td>
-	<td>Ячейка</td>
-	<td>Ячейка</td>
-	<td>Ячейка</td>
-</tr>
+<?php $i++; endwhile;?>
 </tbody>
 </table>
 </body>
