@@ -35,10 +35,26 @@
 
 </style>
 <body>
+    <?php if (!isset($_COOKIE['session'])):?>
+
+
     <div class="navbar">
     <a href="/index.php">Главная</a>
     <a class="a-header" href="login.php">Авторизация</a>
     </div>
+
+
+    <?php endif; if(isset($_COOKIE['session'])):?>
+
+
+        <div class="navbar">
+    <a href="/index.php">Главная</a>
+    <a class="a-header" href="logout.php">Выйти</a>
+    </div>
+
+    
+        <?php endif;?>
+   
 </body>
 
 <body>

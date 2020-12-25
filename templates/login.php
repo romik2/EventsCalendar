@@ -1,6 +1,16 @@
 <?php 
 
 	include 'api/config.php';
+	function generate_string($input, $strength = 16) {
+		$input_length = strlen($input);
+		$random_string = '';
+		for($i = 0; $i < $strength; $i++) {
+			$random_character = $input[mt_rand(0, $input_length - 1)];
+			$random_string .= $random_character;
+		}
+	 
+		return $random_string;
+	}
 			$value = '';
 	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 		$value = $_SERVER['HTTP_CLIENT_IP'];
@@ -12,16 +22,21 @@
 	
 	$res = $link->query("SELECT count(id) From users WHERE ip='".$value."'");
 
-	$row = $res->fetch_row();	
+	$row = $res->fetch_row();
+	$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';	
+
 	if ($row[0] == 1)
 	{
-		$values = rand(999, 99999);
+		$values = generate_string($permitted_chars, 20);
 		setcookie("session", $values, time() + 7200, '/');  /* срок действия 1 час */
 		$link->query("UPDATE users
             SET session = '" . $values . "'
 			WHERE ip = '" . $value . "'");
 		   header ('Location: /index.php');  // перенаправление на нужную страницу
+		   exit;
 	}
+
+
 ?>
 
 <!DOCTYPE html>

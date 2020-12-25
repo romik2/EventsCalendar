@@ -1,3 +1,22 @@
+<?php if (!isset($_COOKIE['session'])):?>
+
+
+<div class="navbars">
+<a href="/index.php">Главная</a>
+<a class="a-header" href="/templates/login.php">Авторизация</a>
+</div>
+
+
+<?php endif; if(isset($_COOKIE['session'])):?>
+
+
+<div class="navbars">
+<a href="/index.php">Главная</a>
+<a class="a-header" href="/templates/logout.php">Выйти</a>
+</div>
+
+
+<?php endif;?>
 <?php
 // Get current year, month and day
 list($iNowYear, $iNowMonth, $iNowDay) = explode('-', date('Y-m-d'));
