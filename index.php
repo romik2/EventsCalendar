@@ -60,7 +60,7 @@ for ($i = 0; $i < 6; $i++) { // 6-weeks range
         } elseif (!$bPreviousMonth && !$bNextMonth) {
             $sClass = 'current';
         }
-        $sCalTblRows .= '<td class="'.$sClass.'"><a href="javascript: void(0)">'.$iCurrentDay.'</a></td>';
+        $sCalTblRows .= '<td class="'.$sClass.'"><a href="templates/event.php?date='.$iCurrentDay.'&month='.$sMonthName.'&year='.$iYear.'">'.$iCurrentDay.'</a></td>';
 
         // Next day
         $iCurrentDay++;

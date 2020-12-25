@@ -1,0 +1,49 @@
+Create Table users
+(id serial, 
+firstname VarChar(60) NOT NULL, 
+name VarChar(60) NOT NULL, 
+patronomyc VarChar(60) NOT NULL, 
+login VarChar(60) NOT NULL, 
+password VarChar(60) NOT NULL, 
+session INT, 
+roles enum('admin','moderator','user') NOT NULL default 'user', 
+ip int, 
+Primary Key (id))
+ENGINE InnoDB CHARACTER SET utf8;
+
+Create Table events
+(id serial,  
+name text NOT NULL, 
+provisions VarChar(60) NOT NULL, 
+date DATE NOT NULL, 
+direction VarChar(60) NOT NULL,
+Primary Key (id))
+ENGINE InnoDB CHARACTER SET utf8;
+
+Create Table participants
+(id serial, 
+firstname VarChar(60) NOT NULL, 
+name VarChar(60) NOT NULL, 
+patronomyc VarChar(60) NOT NULL, 
+brithday Date NOT NULL, 
+unions VarChar(60) NOT NULL, 
+Primary Key (id))
+ENGINE InnoDB CHARACTER SET utf8;
+
+
+Create Table participants_users
+(id serial, 
+id_participants  BIGINT UNSIGNED NOT NULL, 
+id_teacher  BIGINT UNSIGNED NOT NULL, 
+date_application Date NOT NULL, 
+id_events  BIGINT UNSIGNED NOT NULL, 
+Primary Key (id),
+FOREIGN KEY(id_participants) REFERENCES participants (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+FOREIGN KEY(id_teacher) REFERENCES users (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+FOREIGN KEY(id_events) REFERENCES events (id) ON UPDATE CASCADE ON DELETE RESTRICT)
+ENGINE InnoDB CHARACTER SET utf8;
+
+
+
+
+
