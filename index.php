@@ -102,35 +102,38 @@ $link = mysqli_connect($host, $user, $password, $database) //Подключен�
 $link->set_charset('utf8');//Ставим кадировки UTF-8
 
 
-$res = $link->query("SELECT count(date) From events WHERE MONTH(date) = '".$month."' and YEAR(date) = '".$iYear."' group by date");
-        $row = $res->fetch_row();
-        $col_z = $row[0];
-
+$res = $link->query("SELECT count(date) as cont From events WHERE MONTH(date) = '".$month."' and YEAR(date) = '".$iYear."'");
+        $row = $res->fetch_assoc();
+        $col_z = $row['cont'];
+        
 // Generate rows for the calendar
 for ($i = 0; $i < 6; $i++) { // 6-weeks range
     $sCalTblRows .= '<tr>';
     for ($j = 0; $j < 7; $j++) { // 7 days a week
-
-        $sClass = '';
+        
+        $sClass = 'daysik';
         if ($iNowYear == $iYear && $iNowMonth == $iMonth && $iNowDay == $iCurrentDay && !$bPreviousMonth && !$bNextMonth) {
             $sClass = 'today';
         } elseif (!$bPreviousMonth && !$bNextMonth) {
             $sClass = 'current';
         }
         
-        if ($col_z > 1)
+        if ($col_z > 0 )
         {
-            $res = $link->query("SELECT DAY(date) From events WHERE MONTH(date) = '".$month."' and YEAR(date) = '".$iYear."' group by date");
-            while($row = $res->fetch_assoc())
+            $pr = 0;
+            $res = $link->query("SELECT DAY(date) as days From events WHERE MONTH(date) = '".$month."' and YEAR(date) = '".$iYear."' group by date");
+            $day = $iCurrentDay;
+            while($rows = $res->fetch_assoc())
             {
-                if ($iCurrentDay == $row['DAY(date)'])
+                if ($iCurrentDay == $rows['days'] and $sClass != 'daysik')
                 {
                     $sCalTblRows .= '<td class="mer"><a href="templates/event.php?date='.$iCurrentDay.'&month='.$sMonthName.'&year='.$iYear.'">'.$iCurrentDay.'</a></td>';
+                    $pr = 1;
                 }
-                else 
-                {
-                    $sCalTblRows .= '<td class="'.$sClass.' "><a href="templates/event.php?date='.$iCurrentDay.'&month='.$sMonthName.'&year='.$iYear.'">'.$iCurrentDay.'</a></td>';
-                }
+            }
+            if ($pr != 1 )
+            {
+                $sCalTblRows .= '<td class="'.$sClass.' "><a href="templates/event.php?date='.$iCurrentDay.'&month='.$sMonthName.'&year='.$iYear.'">'.$iCurrentDay.'</a></td>';
             }
         }
         else
@@ -176,10 +179,18 @@ if (!isset($_COOKIE['session']))
 else if (isset($_COOKIE['session']))
 {
     echo '<div class="navbars">
-    <a href="/index.php">Главная</a>
-    <a class="a-header" href="/templates/logout.php">Выйти</a>
+    <a href="/index.php">Главная</a>';
+    include 'templates/api/session.php';
+            if ($roles == 'admin'){
+                echo ' <a href="/users_add.php">Добавить пользователя</a>
+                <a class="a-header" href="event_read.php">Отчёты</a>';
+            }
+    echo '<a class="a-header" href="/templates/logout.php">Выйти</a>
     </div>';
 }
+
+   
+    
 $aVariables = array(
     '__calendar__' => $sCalendarItself,
 );
