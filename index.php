@@ -117,7 +117,7 @@ for ($i = 0; $i < 6; $i++) { // 6-weeks range
         } elseif (!$bPreviousMonth && !$bNextMonth) {
             $sClass = 'current';
         }
-        
+            
         if ($col_z > 0 )
         {
             $pr = 0;
@@ -182,8 +182,8 @@ else if (isset($_COOKIE['session']))
     <a href="/index.php">Главная</a>';
     include 'templates/api/session.php';
             if ($roles == 'admin'){
-                echo ' <a href="/users_add.php">Добавить пользователя</a>
-                <a class="a-header" href="event_read.php">Отчёты</a>';
+                echo ' <a href="templates/users.php">Пользователи</a>
+                <a class="a-header" href="templates/event_read.php">Отчёты</a>';
             }
     echo '<a class="a-header" href="/templates/logout.php">Выйти</a>
     </div>';
