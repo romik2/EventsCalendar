@@ -36,7 +36,26 @@
 		   exit;
 	}
 
+	if (isset($_POST['button']))
+	{
+		$login = $_POST['login']; //Логин пользователя
+		$password = $_POST['password']; // Пароль пользователя
 
+		$res = $link->query("SELECT password From users Where login = '" . $login . "'");
+
+
+		$row = $res->fetch_row();
+
+		if ($password == $row[0] && $password != "unset") {
+			$values = generate_string($permitted_chars, 20);
+		setcookie("session", $values, time() + 7200, '/');  /* сок действия 1 час */
+		$link->query("UPDATE users
+            SET session = '" . $values . "'
+			WHERE login = '" . $login . "'");
+		   header ('Location: /index.php');  // перенаправление на нужную страницу
+		   exit;
+		}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -50,17 +69,17 @@
 <body>
 <div class="container">
 	<section id="content">
-		<form action="">
+		<form action="" method="POST">
 		
 			<h1>Авторизация</h1>
 			<div>
-				<input type="text" placeholder="Username" required="" id="username" />
+				<input type="text" placeholder="Username" name="login" required="" id="username" />
 			</div>
 			<div>
-				<input type="password" placeholder="Password" required="" id="password" />
+				<input type="password" placeholder="Password" name="password" required="" id="password" />
 			</div>
 			<div>
-                <input type="submit" value="Войти" />
+				 <input type="submit" name="button" value="Войти" />
                 <a href="/index.php">Назад</a>				
 			</div>
 		</form><!-- form -->
