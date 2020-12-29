@@ -96,7 +96,7 @@
     <td><?php echo $row['login']?></td>
     <td><?php echo $row['password']?></td>
     <td><?php echo $row['roles']?></td>
-    <td><a href="">Редактировать</a> | <a href="api/delUsers.php?id=<?php echo $row['id']?>">Удалить</a></td>
+    <td><a href="users_red.php?id=<?php echo $row['id']?>">Редактировать</a> | <a href="api/delUsers.php?id=<?php echo $row['id']?>">Удалить</a></td>
 </tr>
 <?php $i++; endwhile;?>
 </tbody>

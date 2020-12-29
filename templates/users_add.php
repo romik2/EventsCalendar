@@ -4,6 +4,8 @@
     {
         include 'api/config.php';
         $res = $link->query("INSERT INTO `users` (`firstname`, `name`, `patronomyc`, `login`, `password`, `roles`, `ip`) VALUES ('" . $_POST['firstname'] . "', '" . $_POST['name'] . "', '" . $_POST['patronomyc'] . "', '" . $_POST['login'] . "', '" . $_POST['password'] . "', '" . $_POST['roles'] . "', '" . $_POST['ip'] . "' );");
+        header ('Location: users.php');  // перенаправление на нужную страницу
+        exit;
     }
 
 
