@@ -35,7 +35,7 @@
 
 </style>
 <?php 
- switch ($_GET[month]) {
+ switch ($_GET['month']) {
     case "December":
         $month = 12;
         break;
@@ -85,7 +85,7 @@
 
     <?php endif; if(isset($_COOKIE['session'])):?>
 
-c
+
         <div class="navbar">
     <a href="/index.php">Главная</a>
     <?php include 'api/session.php';
@@ -127,7 +127,7 @@ c
 
    
                                                 
-    $date = $_GET[year].'-'.$month.'-'.$_GET[date];
+    $date = $_GET['year'].'-'.$month.'-'.$_GET['date'];
 
     $res = $link->query("SELECT id, name, provisions, direction, type From events WHERE date='".$date."'");
 
@@ -147,7 +147,11 @@ c
 
     <?php 
             if ($roles == 'admin'):?>
-    <td><a href="#">Заполнить участников</a> | <a href="#">Подтверждение участия</a> | <a href="api/delEvent.php?id=<?php echo $row['id']?>">Удалить</a> | <a href="#">Список участников</a></td>
+    <td><a href="participation.php?id=<?php echo $row['id']?>&stud=1">Заполнить участников</a> | <a href="#">Подтверждение участия</a> | <a href="api/delEvent.php?id=<?php echo $row['id']?>">Удалить</a> | <a href="#">Список участников</a></td>
+    <?php endif;?>
+    <?php 
+            if ($roles == 'moder'):?>
+    <td><a href="participation.php?id=<?php echo $row['id']?>&stud=1">Заполнить участников</a> | <a href="#">Подтверждение участия</a> | <a href="api/delEvent.php?id=<?php echo $row['id']?>">Удалить</a> | <a href="#">Список участников</a></td>
     <?php endif;?>
     
 </tr>
