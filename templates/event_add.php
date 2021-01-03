@@ -113,7 +113,7 @@ if(isset($_POST['submit']))
           <input type="text" name = "name" placeholder="Название мероприятия">
             <input type="text" name = "provisions"  placeholder="Направление">
             <h6>Положение</h6>
-          <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+          <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
           <input name="userfile" type="file" />
             
             <br><br>
