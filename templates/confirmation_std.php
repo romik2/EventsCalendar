@@ -132,6 +132,12 @@ if(isset($_POST['submit']))
     <a href="participation_file.php?id=<?php echo $row['id']?>&id_ev=<?php echo $_GET['id']?>">Прикрепить файл</a>
     </td>
     <?php endif;?>
+    <?php 
+            if ($roles == 'user'):?>
+    <td>
+    <a href="participation_file.php?id=<?php echo $row['id']?>&id_ev=<?php echo $_GET['id']?>">Прикрепить файл</a>
+    </td>
+    <?php endif;?>
     
     
 </tr>

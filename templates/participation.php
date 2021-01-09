@@ -8,11 +8,15 @@
         $i = 1;
         while ($i < $_GET['stud']+1)
         {
-          $res = $link->query("INSERT INTO `EventsCalendar`.`participants` (`firstnamenamepatronomyc`) VALUES ('".$_POST['FIO'.$i]."');");
-          $res = $link->query("Select max(`id`) as `maxid` from `participants`");
-          $row = $res->fetch_row();
-          $id_participants = $row[0];
-          $result = $link->query("INSERT INTO `EventsCalendar`.`participants_users` (`id_participants`, `id_teacher`, `id_events`) VALUES ('".$id_participants."', '".$id."', '".$_GET['id']."');");
+          if ($_POST['FIO'.$i] != "")
+          {
+            $res = $link->query("INSERT INTO `EventsCalendar`.`participants` (`firstnamenamepatronomyc`) VALUES ('".$_POST['FIO'.$i]."');");
+            $res = $link->query("Select max(`id`) as `maxid` from `participants`");
+            $row = $res->fetch_row();
+            $id_participants = $row[0];
+            $result = $link->query("INSERT INTO `EventsCalendar`.`participants_users` (`id_participants`, `id_teacher`, `id_events`) VALUES ('".$id_participants."', '".$id."', '".$_GET['id']."');");
+            
+          }
           $i++;
         }
         header ('Location: /index.php'); 

@@ -153,6 +153,10 @@
             if ($roles == 'moder'):?>
     <td><a href="participation.php?id=<?php echo $row['id']?>&stud=1">Заполнить участников</a> | <a href="confirmation_std.php?id=<?php echo $row['id']?>">">Подтверждение участия</a> | <a href="api/delEvent.php?id=<?php echo $row['id']?>">Удалить</a> | <a href="event_reads.php?id=<?php echo $row['id']?>">Список участников</a></td>
     <?php endif;?>
+    <?php 
+            if ($roles == 'user'):?>
+    <td><a href="participation.php?id=<?php echo $row['id']?>&stud=1">Заполнить участников</a> | <a href="confirmation_std.php?id=<?php echo $row['id']?>">Подтверждение участия</a></td>
+    <?php endif;?>
     
 </tr>
 <?php $i++; endwhile;?>
