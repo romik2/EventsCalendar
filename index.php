@@ -183,7 +183,7 @@ else if (isset($_COOKIE['session']))
     include 'templates/api/session.php';
             if ($roles == 'admin'){
                 echo ' <a href="templates/users.php">Пользователи</a>
-                <a class="a-header" href="templates/event_read.php">Отчёты</a>';
+                <a class="a-header" href="templates/report.php">Отчёты</a>';
             }
     echo '<a class="a-header" href="/templates/logout.php">Выйти</a>
     </div>';
